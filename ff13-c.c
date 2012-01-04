@@ -16,7 +16,6 @@ struct tree_el {
    struct tree_el * parent;
    int index;
    int val;
-   int level;
    struct tree_el * right, * left;
 };
 
@@ -78,37 +77,35 @@ void insert(node * tree) {
 
     	  if(left_valid>0) {
     	    tree->left = all_node_ptr[left_idx];
-    	    tree->left->level = level_temp;
     	    tree->left->parent = tree;
     	    insert(tree->left);
     	  }
     	  if(left_idx!=right_idx && right_valid>0) {
             tree->right = all_node_ptr[right_idx];
-            tree->right->level = level_temp;
             tree->right->parent = tree;
             insert(tree->right);
     	  }
 
 	//if leaf return
 
-	  if(left_valid==2)
+	  if(left_valid==2) {
 		  print_true_path(tree->left);
-	  if(right_valid==2)
+		  printf("\n");
+	  }
+	  if(right_valid==2) {
 		  print_true_path(tree->right);
-//printf("ins done \n");
+	      printf("\n");
+      }
+	  //printf("ins done \n");
 
 }
-void printout(node * tree) {
-   if(tree->left) printout(tree->left);
-   printf("%d,%d,%d\n",tree->index,tree->val,tree->level);
-   if(tree->right) printout(tree->right);
-}
+
 
 void main() {
    node * root;
 
    int i;
-   int input_data[12] = {2,2,2,2,2,2,2,1,1,1,1};
+   int input_data[12] = {2,2,2,2,2,2,2,1,1,1,1,1};
 
    root = NULL;
    level_temp = 0;
@@ -126,14 +123,14 @@ void main() {
 	   all_node_ptr[i]->parent = NULL;
 	   all_node_ptr[i]->index = i;
 	   all_node_ptr[i]->val = input_data[i];
-	   all_node_ptr[i]->level = 0;
 	   printf(" %d , ",i);
    }
+   printf("\n");
    //first node, start from index0
    root = all_node_ptr[0];
    root->parent = NULL;
       insert(root);
 
 printf("finish");
-   //printout(root);
+
 }
